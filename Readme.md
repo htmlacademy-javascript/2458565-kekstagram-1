@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Анастасия Бельская](https://up.htmlacademy.ru/javascript-individual/1/user/2458565).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Остаповец](https://htmlacademy.ru/profile/id288419).
 
 ---
 
