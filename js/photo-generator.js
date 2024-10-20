@@ -1,8 +1,12 @@
+import { generatePositiveRandomInteger, getRandomElement } from './util.js';
+
 const PHOTOS_ARRAY_MINLENGTH = 25;
 const AVATAR_MINVALUE = 1;
 const AVATAR_MAXVALUE = 6;
 const LIKES_MINVALUE = 15;
 const LIKES_MAXVALUE = 200;
+const COMMENTS_MINVALUE = 0;
+const COMMENTS_MAXVALUE = 10;
 const COMMENTS_TEXT_MINVALUE = 1;
 const COMMENTS_TEXT_MAXVALUE = 2;
 const USER_NAMES = [
@@ -29,4 +33,31 @@ const COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-export {PHOTOS_ARRAY_MINLENGTH, AVATAR_MINVALUE, AVATAR_MAXVALUE, LIKES_MINVALUE,LIKES_MAXVALUE, COMMENTS_TEXT_MINVALUE, COMMENTS_TEXT_MAXVALUE, USER_NAMES, DESCRIPTIONS, COMMENTS};
+const getMessage = (array) => {
+  const count = generatePositiveRandomInteger(COMMENTS_TEXT_MINVALUE, COMMENTS_TEXT_MAXVALUE);
+  const message = new Set;
+  while (message.size < count) {
+    message.add(getRandomElement(array));
+  }
+
+  return [...message].join(' ');
+};
+
+const generateComments = (_, index) => ({
+  id: index,
+  avatar: `img/avatar-${generatePositiveRandomInteger(AVATAR_MINVALUE, AVATAR_MAXVALUE)}.svg`,
+  message: getMessage(COMMENTS),
+  name: getRandomElement(USER_NAMES),
+});
+
+const generatePhoto = (_, index) => ({
+  id: index + 1,
+  url: `photos/${index + 1}.jpg`,
+  description: getRandomElement(DESCRIPTIONS),
+  likes: generatePositiveRandomInteger(LIKES_MINVALUE, LIKES_MAXVALUE),
+  comments: Array.from({length: generatePositiveRandomInteger(COMMENTS_MINVALUE, COMMENTS_MAXVALUE)}, (commentIndex) => generateComments(_, commentIndex + 1))
+});
+
+const getPhotos = () => Array.from({length: PHOTOS_ARRAY_MINLENGTH}, generatePhoto);
+
+export { getPhotos };
