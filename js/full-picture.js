@@ -12,6 +12,15 @@ const commentsContainer = bigPictureModal.querySelector('.social__comments');
 const MAX_COMMENTS_PER_PAGE = 5;
 let currentCommentIndex = 0;
 
+const closeModal = (evt) => {
+  evt.preventDefault();
+  if (isEscapeKey(evt)) {
+    bigPictureModal.classList.add('hidden');
+  }
+
+  document.removeEventListener('keydown', closeModal);
+};
+
 const buildComment = (comment) => {
   const commentElement = document.createElement('li');
   commentElement.classList.add('social__comment');
@@ -48,6 +57,7 @@ const showComments = (comments) => {
 
 const showFullPicture = (photo) => {
   bigPictureModal.classList.remove('hidden');
+  document.addEventListener('keydown', closeModal);
 
   bigPictureImage.src = photo.url;
   likesCount.textContent = photo.likes;
@@ -68,12 +78,4 @@ bigPictureCloseButton.addEventListener('click', () => {
   document.body.classList.remove('modal-open');
 });
 
-document.addEventListener('keydown', (evt) => {
-  evt.preventDefault();
-  if (isEscapeKey(evt)) {
-    bigPictureModal.classList.add('hidden');
-  }
-});
-
 export { showFullPicture };
-

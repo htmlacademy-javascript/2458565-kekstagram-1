@@ -710,6 +710,11 @@ main {
   border-radius: 5px;
 }
 
+.form__error {
+  display: block;
+  font-size: 0.85em;
+  color: #f14f5c;
+}
 
 /**
  * Кнопка для отправки изображения
