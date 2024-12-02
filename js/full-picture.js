@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 
+const MAX_COMMENTS_PER_PAGE = 5;
 const bigPictureModal = document.querySelector('.big-picture');
 const bigPictureCloseButton = bigPictureModal.querySelector('#picture-cancel');
 const bigPictureImage = bigPictureModal.querySelector('.big-picture__img img');
@@ -9,7 +10,7 @@ const photoDescription = bigPictureModal.querySelector('.social__caption');
 const socialCommentsCount = bigPictureModal.querySelector('.social__comment-count');
 const commentsLoaderButton = bigPictureModal.querySelector('.social__comments-loader');
 const commentsContainer = bigPictureModal.querySelector('.social__comments');
-const MAX_COMMENTS_PER_PAGE = 5;
+
 let currentCommentIndex = 0;
 
 const closeModal = (evt) => {

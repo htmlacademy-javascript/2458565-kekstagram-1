@@ -1,8 +1,9 @@
-const imgForm = document.querySelector('.img-upload__overlay');
-const imgPreview = imgForm.querySelector('.img-upload__preview img');
-const effectInput = imgForm.querySelector('.effect-level__value');
-const effectsSlider = imgForm.querySelector('.effect-level__slider');
-const effectRadioButtons = imgForm.querySelectorAll('.effects__radio');
+const imgFormOverLay = document.querySelector('.img-upload__overlay');
+const imgPreview = imgFormOverLay.querySelector('.img-upload__preview img');
+const slider = imgFormOverLay.querySelector('.img-upload__effect-level');
+const effectInput = imgFormOverLay.querySelector('.effect-level__value');
+const effectsSlider = imgFormOverLay.querySelector('.effect-level__slider');
+const effectRadioButtons = imgFormOverLay.querySelectorAll('.effects__radio');
 effectInput.value = 100;
 
 noUiSlider.create(effectsSlider, {
@@ -91,15 +92,18 @@ const getSliderVisibility = (effect) => {
   if (effect === 'none') {
     imgPreview.style.filter = '';
     effectsSlider.classList.add('hidden');
+    slider.classList.add('hidden');
   } else {
     effectsSlider.classList.remove('hidden');
+    slider.classList.remove('hidden');
     getFilterOptions(effect);
   }
 };
 
 const originEffect = Array.from(effectRadioButtons).find((radio) =>
   radio.checked).value;
-getSliderVisibility(originEffect);
+
+const getDefaultEffect = () => getSliderVisibility(originEffect);
 
 for (const effectRadioButton of effectRadioButtons) {
   effectRadioButton.addEventListener('change', (evt) => {
@@ -117,4 +121,4 @@ for (const effectRadioButton of effectRadioButtons) {
   });
 }
 
-export { imgForm, imgPreview, getSliderVisibility };
+export { imgFormOverLay, imgPreview, getDefaultEffect };

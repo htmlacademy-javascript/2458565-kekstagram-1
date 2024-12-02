@@ -1,10 +1,8 @@
-import { getPhotos } from './photo-generator.js';
 import { showFullPicture } from './full-picture.js';
 
 const previewTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-
 const previewsContainer = document.querySelector('.pictures');
 const picturesList = document.createDocumentFragment();
 
@@ -23,6 +21,6 @@ const getPreview = (preview) => {
   previewsContainer.append(picturesList);
 };
 
-const photos = getPhotos();
-getPreview(photos);
+export { getPreview };
+
 
