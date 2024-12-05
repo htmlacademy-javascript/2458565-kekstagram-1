@@ -1,12 +1,18 @@
-import { imgForm, imgPreview } from './preview-effects.js';
+import { imgFormOverLay, imgPreview } from './preview-effects.js';
 
-const scaleInput = imgForm.querySelector('.scale__control--value');
-const zoomOutButton = imgForm.querySelector('.scale__control--smaller');
-const zoomInButton = imgForm.querySelector('.scale__control--bigger');
 const SCALE_MAXVALUE = 100;
 const SCALE_MINVALUE = 0;
+const scaleInput = imgFormOverLay.querySelector('.scale__control--value');
+const zoomOutButton = imgFormOverLay.querySelector('.scale__control--smaller');
+const zoomInButton = imgFormOverLay.querySelector('.scale__control--bigger');
+const originalScale = imgPreview.style.transform;
 
 const getScaleInputValue = () => parseFloat(scaleInput.value);
+
+const getOriginalScale = () => {
+  imgPreview.style.transform = originalScale;
+  scaleInput.value = `${SCALE_MAXVALUE}%`;
+};
 
 const resizeImage = () => {
   const value = getScaleInputValue();
@@ -33,3 +39,5 @@ zoomOutButton.addEventListener('click', () => {
     resizeImage();
   }
 });
+
+export { getOriginalScale };

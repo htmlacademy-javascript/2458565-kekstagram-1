@@ -711,10 +711,6 @@ main {
 }
 
 .form__error {
-  display: none;
-}
-
-.is-invalid .form__error {
   display: block;
   font-size: 0.85em;
   color: #f14f5c;
