@@ -7,7 +7,6 @@ const Method = {
   GET: 'GET',
   POST: 'POST',
 };
-
 const ErrorMessages = {
   GET_DATA: 'Данные не удалось загрузить. Попробуйте обновить страницу',
   SEND_DATA: 'Форма не отправлена. Повторите попытку',

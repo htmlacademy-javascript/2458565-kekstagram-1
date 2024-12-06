@@ -1,19 +1,21 @@
 import { isEscapeKey } from './util.js';
 
-const successMessage = document.querySelector('#success')
+const successMessageTemplate = document.querySelector('#success')
   .content
   .querySelector('.success')
   .cloneNode(true);
-const errorMessage = document.querySelector('#error')
+const errorMessageTemplate = document.querySelector('#error')
   .content
   .querySelector('.error')
   .cloneNode(true);
-const successMessageButton = successMessage.querySelector('.success__button');
-const errorMessageButton = errorMessage.querySelector('.error__button');
+const successMessageButtonElem = successMessageTemplate.querySelector('.success__button');
+const errorMessageButtonElem = errorMessageTemplate.querySelector('.error__button');
 
 const closeMessage = (element, message) => {
   element.addEventListener('click', () => {
-    message.remove();
+    if (message) {
+      message.remove();
+    }
   });
   element.removeEventListener('click', closeMessage);
 };
@@ -36,17 +38,17 @@ const onEscClickRemover = (message) => {
 };
 
 const showSuccessMessage = () => {
-  document.body.append(successMessage);
-  closeMessage(successMessageButton, successMessage);
-  onClickRemover(successMessage, successMessage);
-  onEscClickRemover(successMessage);
+  document.body.append(successMessageTemplate);
+  closeMessage(successMessageButtonElem, successMessageTemplate);
+  onClickRemover(successMessageTemplate, successMessageTemplate);
+  onEscClickRemover(successMessageTemplate);
 };
 
 const showErrorMessage = () => {
-  document.body.append(errorMessage);
-  closeMessage(errorMessageButton, errorMessage);
-  onClickRemover(errorMessage, errorMessage);
-  onEscClickRemover(errorMessage);
+  document.body.append(errorMessageTemplate);
+  closeMessage(errorMessageButtonElem, errorMessageTemplate);
+  onClickRemover(errorMessageTemplate, errorMessageTemplate);
+  onEscClickRemover(errorMessageTemplate);
 };
 
 export { showSuccessMessage, showErrorMessage, closeMessage };

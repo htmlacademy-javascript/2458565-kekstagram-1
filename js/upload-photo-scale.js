@@ -1,10 +1,10 @@
-import { imgFormOverLay, imgPreview } from './preview-effects.js';
+import { imgFormOverLay, imgPreview } from './upload-photo-effects.js';
 
 const SCALE_MAXVALUE = 100;
 const SCALE_MINVALUE = 0;
 const scaleInput = imgFormOverLay.querySelector('.scale__control--value');
-const zoomOutButton = imgFormOverLay.querySelector('.scale__control--smaller');
-const zoomInButton = imgFormOverLay.querySelector('.scale__control--bigger');
+const zoomOutButtonElem = imgFormOverLay.querySelector('.scale__control--smaller');
+const zoomInButtonElem = imgFormOverLay.querySelector('.scale__control--bigger');
 const originalScale = imgPreview.style.transform;
 
 const getScaleInputValue = () => parseFloat(scaleInput.value);
@@ -20,7 +20,7 @@ const resizeImage = () => {
   imgPreview.style.transform = `scale(${scale})`;
 };
 
-zoomInButton.addEventListener('click', () => {
+zoomInButtonElem.addEventListener('click', () => {
   let value = getScaleInputValue();
 
   if (value < SCALE_MAXVALUE) {
@@ -30,7 +30,7 @@ zoomInButton.addEventListener('click', () => {
   }
 });
 
-zoomOutButton.addEventListener('click', () => {
+zoomOutButtonElem.addEventListener('click', () => {
   let value = getScaleInputValue();
 
   if (value > SCALE_MINVALUE) {
