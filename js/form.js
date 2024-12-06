@@ -1,32 +1,38 @@
 import { isEscapeKey } from './util.js';
-import { imgFormOverLay, imgPreview, getDefaultEffect } from './preview-effects.js';
+import { imgFormOverLay, imgPreview, getDefaultEffect } from './upload-photo-effects.js';
 import { pristine, hashtagInput, commentInput } from './form-validation.js';
 import { showErrorMessage, showSuccessMessage } from './form-messages.js';
-import { getOriginalScale } from './preview-scale.js';
+import { getOriginalScale } from './upload-photo-scale.js';
+import { uploadPhoto } from './upload-photo.js';
+import { showAlert } from './util.js';
 
+const ALERT_SHOW_TIME = 2000;
 const uploadFileInput = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
-const resetButton = imgFormOverLay.querySelector('#upload-cancel');
-const submitButton = imgFormOverLay.querySelector('.img-upload__submit');
-
-uploadFileInput.addEventListener('change', () => {
-  imgFormOverLay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  getDefaultEffect();
-});
+const resetButtonElem = imgFormOverLay.querySelector('#upload-cancel');
+const submitButtonElem = imgFormOverLay.querySelector('.img-upload__submit');
+const LoadingMessages = {
+  start: 'Публикую...',
+  finish: 'Опубликовать',
+};
+const loadPhotoTemplate = document.querySelector('#messages')
+  .content
+  .querySelector('.img-upload__message')
+  .cloneNode(true);
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Публикую...';
+  submitButtonElem.disabled = true;
+  submitButtonElem.textContent = LoadingMessages.start;
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElem.disabled = false;
+  submitButtonElem.textContent = LoadingMessages.finish;
 };
 
 const resetform = () => {
   imgPreview.className = 'img-upload__preview';
+  imgPreview.src = '';
   uploadFileInput.value = '';
   hashtagInput.value = '';
   commentInput.value = '';
@@ -39,7 +45,7 @@ const closeModal = () => {
   document.body.classList.remove('modal-open');
 };
 
-resetButton.addEventListener('click', () => {
+resetButtonElem.addEventListener('click', () => {
   closeModal();
   resetform();
 });
@@ -86,5 +92,13 @@ const setFormSubmit = (onSuccess) => {
     }
   });
 };
+
+uploadFileInput.addEventListener('change', () => {
+  showAlert(loadPhotoTemplate, ALERT_SHOW_TIME);
+  imgFormOverLay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  uploadPhoto();
+  getDefaultEffect();
+});
 
 export { setFormSubmit };

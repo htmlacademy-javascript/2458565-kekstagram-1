@@ -1,4 +1,4 @@
-import { imgFormOverLay } from './preview-effects.js';
+import { imgFormOverLay } from './upload-photo-effects.js';
 
 const HASHTAG_MAXQUANTITY = 5;
 const HASHTAG__MINLENGTH = 2;
@@ -8,11 +8,12 @@ const hashtagInput = imgFormOverLay.querySelector('.text__hashtags');
 const commentInput = imgFormOverLay.querySelector('.text__description');
 
 const errorMessages = {
-  minLength: 'хэш-тег не может состоять из одного символа',
-  maxLength: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
-  maxQuantity: 'превышено максимально допустимое количество хэш-тегов',
+  hashtagMinlength: 'хэш-тег не может состоять из одного символа',
+  hashTagMaxlength: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
+  hashtagMaxquantity: 'превышено максимально допустимое количество хэш-тегов',
   invalidFormat: 'Неверный формат хэш-тегов. Используйте символ решетки, числа и буквы, регистр не важен',
-  duplicate: 'не используйте повторяющиеся хэш-теги',
+  hashtagDuplicate: 'не используйте повторяющиеся хэш-теги',
+  commentMaxLength: 'длина не более 140 символов',
 };
 
 const pristine = new Pristine(imgFormOverLay, {
@@ -49,15 +50,15 @@ const validateHashtag = (value) => {
 const getErrorMessage = (value) => {
   const result = validateHashtag(value);
   if (result.errors.minLength) {
-    return errorMessages.minLength;
+    return errorMessages.hashtagMinlength;
   } else if (result.errors.maxLength) {
-    return errorMessages.maxLength;
+    return errorMessages.hashTagMaxlength;
   } else if (result.errors.maxQuantity) {
-    return errorMessages.maxQuantity;
+    return errorMessages.hashtagMaxquantity;
   } else if (result.errors.invalidFormat) {
     return errorMessages.invalidFormat;
   } else if (result.errors.duplicate) {
-    return errorMessages.duplicate;
+    return errorMessages.hashtagDuplicate;
   }
 };
 
@@ -80,7 +81,7 @@ const validateComment = (comment) => {
 pristine.addValidator(
   commentInput,
   validateComment,
-  'длина не более 140 символов'
+  errorMessages.commentMaxLength,
 );
 
 export { pristine, hashtagInput, commentInput };

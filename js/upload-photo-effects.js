@@ -100,10 +100,11 @@ const getSliderVisibility = (effect) => {
   }
 };
 
-const originEffect = Array.from(effectRadioButtons).find((radio) =>
-  radio.checked).value;
-
-const getDefaultEffect = () => getSliderVisibility(originEffect);
+const getDefaultEffect = () => {
+  const originEffect = Array.from(effectRadioButtons).find((radio) =>
+    radio.checked).value;
+  getSliderVisibility(originEffect);
+};
 
 for (const effectRadioButton of effectRadioButtons) {
   effectRadioButton.addEventListener('change', (evt) => {

@@ -2,7 +2,7 @@ import { isEscapeKey } from './util.js';
 
 const MAX_COMMENTS_PER_PAGE = 5;
 const bigPictureModal = document.querySelector('.big-picture');
-const bigPictureCloseButton = bigPictureModal.querySelector('#picture-cancel');
+const bigPictureCloseButtonElem = bigPictureModal.querySelector('#picture-cancel');
 const bigPictureImage = bigPictureModal.querySelector('.big-picture__img img');
 const likesCount = bigPictureModal.querySelector('.likes-count');
 const commentsCount = bigPictureModal.querySelector('.comments-count');
@@ -74,7 +74,7 @@ const showFullPicture = (photo) => {
   document.body.classList.add('modal-open');
 };
 
-bigPictureCloseButton.addEventListener('click', () => {
+bigPictureCloseButtonElem.addEventListener('click', () => {
   bigPictureModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
 });
