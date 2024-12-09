@@ -2,6 +2,7 @@ import { imgPreview } from './upload-photo-effects.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif'];
 const uploadInput = document.querySelector('.img-upload__input');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 const uploadPhoto = () => {
   imgPreview.src = '';
@@ -12,6 +13,9 @@ const uploadPhoto = () => {
   if (matches) {
     const uploadPhotoSRC = URL.createObjectURL(file);
     imgPreview.src = uploadPhotoSRC;
+    for (const effectPreview of effectsPreviews) {
+      effectPreview.style.backgroundImage = `url(${uploadPhotoSRC})`;
+    }
   }
 };
 

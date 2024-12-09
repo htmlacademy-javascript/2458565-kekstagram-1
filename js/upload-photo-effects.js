@@ -101,8 +101,11 @@ const getSliderVisibility = (effect) => {
 };
 
 const getDefaultEffect = () => {
+  const originEffectRadio = document.querySelector('#effect-none');
   const originEffect = Array.from(effectRadioButtons).find((radio) =>
-    radio.checked).value;
+    radio.id === 'effect-none').value;
+
+  originEffectRadio.checked = true;
   getSliderVisibility(originEffect);
 };
 
