@@ -7,7 +7,7 @@ const COMMENT_MAXLENGTH = 140;
 const hashtagInput = imgFormOverLay.querySelector('.text__hashtags');
 const commentInput = imgFormOverLay.querySelector('.text__description');
 
-const errorMessages = {
+const ErrorMessages = {
   hashtagMinlength: 'хэш-тег не может состоять из одного символа',
   hashTagMaxlength: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
   hashtagMaxquantity: 'превышено максимально допустимое количество хэш-тегов',
@@ -33,7 +33,7 @@ const validateHashtag = (value) => {
   const invalidFormat = [...uniqueHashtags].some((hashtag) => !format.test(hashtag));
   const duplicate = uniqueHashtags.size !== hashtags.length;
 
-  const errors = {
+  const Errors = {
     minLength,
     maxLength,
     maxQuantity,
@@ -43,22 +43,22 @@ const validateHashtag = (value) => {
 
   return {
     isValid: !(minLength || maxLength || maxQuantity || invalidFormat || duplicate),
-    errors
+    Errors
   };
 };
 
 const getErrorMessage = (value) => {
   const result = validateHashtag(value);
-  if (result.errors.minLength) {
-    return errorMessages.hashtagMinlength;
-  } else if (result.errors.maxLength) {
-    return errorMessages.hashTagMaxlength;
-  } else if (result.errors.maxQuantity) {
-    return errorMessages.hashtagMaxquantity;
-  } else if (result.errors.invalidFormat) {
-    return errorMessages.invalidFormat;
-  } else if (result.errors.duplicate) {
-    return errorMessages.hashtagDuplicate;
+  if (result.Errors.minLength) {
+    return ErrorMessages.hashtagMinlength;
+  } else if (result.Errors.maxLength) {
+    return ErrorMessages.hashTagMaxlength;
+  } else if (result.Errors.maxQuantity) {
+    return ErrorMessages.hashtagMaxquantity;
+  } else if (result.Errors.invalidFormat) {
+    return ErrorMessages.invalidFormat;
+  } else if (result.Errors.duplicate) {
+    return ErrorMessages.hashtagDuplicate;
   }
 };
 
@@ -81,7 +81,7 @@ const validateComment = (comment) => {
 pristine.addValidator(
   commentInput,
   validateComment,
-  errorMessages.commentMaxLength,
+  ErrorMessages.commentMaxLength,
 );
 
 export { pristine, hashtagInput, commentInput };
