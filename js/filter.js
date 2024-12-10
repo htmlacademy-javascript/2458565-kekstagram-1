@@ -2,8 +2,6 @@ import { shuffleElements } from './util.js';
 
 const RANDOM_PHOTO_QUANTITY = 10;
 const filters = document.querySelector('.img-filters');
-const filterButtons = filters.querySelectorAll('.img-filters__button');
-let activeFilterButton;
 const FilterID = {
   default: 'filter-default',
   random: 'filter-random',
@@ -29,14 +27,16 @@ const sortPhoto = (data, id) => {
 const showFilter = () => filters.classList.remove('img-filters--inactive');
 
 const onFilterClick = (cb) => {
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', (evt) => {
-      activeFilterButton = filters.querySelector('.img-filters__button--active');
-      activeFilterButton.classList.remove('img-filters__button--active');
-      activeFilterButton = evt.target;
+  filters.addEventListener('click', (evt) => {
+    if (evt.target.matches('.img-filters__button')) {
+      const activeFilterButton = filters.querySelector('.img-filters__button--active');
+
+      if (activeFilterButton) {
+        activeFilterButton.classList.remove('img-filters__button--active');
+      }
       evt.target.classList.add('img-filters__button--active');
       cb();
-    });
+    }
   });
 };
 

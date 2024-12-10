@@ -46,8 +46,8 @@ const closeModal = () => {
 };
 
 resetButtonElem.addEventListener('click', () => {
-  closeModal();
   resetform();
+  closeModal();
 });
 
 const stopEvent = (element) => {
@@ -58,8 +58,8 @@ const stopEvent = (element) => {
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    closeModal();
     resetform();
+    closeModal();
     stopEvent(hashtagInput);
     stopEvent(commentInput);
   }
@@ -94,11 +94,12 @@ const setFormSubmit = (onSuccess) => {
 };
 
 uploadFileInput.addEventListener('change', () => {
-  showAlert(loadPhotoTemplate, ALERT_SHOW_TIME);
-  imgFormOverLay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  uploadPhoto();
-  getDefaultEffect();
+  showAlert(loadPhotoTemplate, ALERT_SHOW_TIME);getDefaultEffect();
+  setTimeout(() => {
+    imgFormOverLay.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+    uploadPhoto();
+  }, ALERT_SHOW_TIME);
 });
 
 export { setFormSubmit };
