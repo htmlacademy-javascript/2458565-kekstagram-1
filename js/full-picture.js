@@ -18,7 +18,6 @@ const closeModal = (evt) => {
   if (isEscapeKey(evt)) {
     bigPictureModal.classList.add('hidden');
   }
-
   document.removeEventListener('keydown', closeModal);
 };
 

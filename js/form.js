@@ -12,8 +12,8 @@ const form = document.querySelector('.img-upload__form');
 const resetButtonElem = imgFormOverLay.querySelector('#upload-cancel');
 const submitButtonElem = imgFormOverLay.querySelector('.img-upload__submit');
 const LoadingMessages = {
-  start: 'Публикую...',
-  finish: 'Опубликовать',
+  START: 'ПУБЛИКУЮ...',
+  FINISH: 'ОПУБЛИКОВАТЬ',
 };
 const loadPhotoTemplate = document.querySelector('#messages')
   .content
@@ -22,12 +22,12 @@ const loadPhotoTemplate = document.querySelector('#messages')
 
 const blockSubmitButton = () => {
   submitButtonElem.disabled = true;
-  submitButtonElem.textContent = LoadingMessages.start;
+  submitButtonElem.textContent = LoadingMessages.START;
 };
 
 const unblockSubmitButton = () => {
   submitButtonElem.disabled = false;
-  submitButtonElem.textContent = LoadingMessages.finish;
+  submitButtonElem.textContent = LoadingMessages.FINISH;
 };
 
 const resetform = () => {
@@ -36,6 +36,7 @@ const resetform = () => {
   uploadFileInput.value = '';
   hashtagInput.value = '';
   commentInput.value = '';
+  pristine.reset();
   getOriginalScale();
   getDefaultEffect();
 };
@@ -58,10 +59,10 @@ const stopEvent = (element) => {
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    resetform();
-    closeModal();
     stopEvent(hashtagInput);
     stopEvent(commentInput);
+    resetform();
+    closeModal();
   }
 };
 
