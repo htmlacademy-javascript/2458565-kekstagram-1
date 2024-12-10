@@ -10,13 +10,16 @@ const originalScale = imgPreview.style.transform;
 const getScaleInputValue = () => parseFloat(scaleInput.value);
 
 const getOriginalScale = () => {
-  imgPreview.style.transform = originalScale;
   scaleInput.value = `${SCALE_MAXVALUE}%`;
+  scaleInput.getAttributeNode('value').value = `${SCALE_MAXVALUE}%`;
+  imgPreview.style.transform = originalScale;
 };
 
 const resizeImage = () => {
-  const value = getScaleInputValue();
-  const scale = value / 100;
+  const newValue = getScaleInputValue();
+  const scale = newValue / 100;
+
+  scaleInput.getAttributeNode('value').value = `${newValue}%`;
   imgPreview.style.transform = `scale(${scale})`;
 };
 

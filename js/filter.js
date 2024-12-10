@@ -12,7 +12,9 @@ const sortPhoto = (data, id) => {
   if (!data) {
     return [];
   }
+
   const dataCopy = data.slice();
+
   if (id === FilterID.random) {
     shuffleElements(dataCopy);
     const randomPhotoSet = dataCopy.slice(0, RANDOM_PHOTO_QUANTITY);
@@ -28,13 +30,12 @@ const showFilter = () => filters.classList.remove('img-filters--inactive');
 
 const onFilterClick = (cb) => {
   filters.addEventListener('click', (evt) => {
-    if (evt.target.matches('.img-filters__button')) {
-      const activeFilterButton = filters.querySelector('.img-filters__button--active');
+    const activeFilterButton = filters.querySelector('.img-filters__button--active');
+    const targetElement = evt.target;
 
-      if (activeFilterButton) {
-        activeFilterButton.classList.remove('img-filters__button--active');
-      }
-      evt.target.classList.add('img-filters__button--active');
+    if (targetElement.closest('button')) {
+      activeFilterButton.classList.remove('img-filters__button--active');
+      targetElement.classList.add('img-filters__button--active');
       cb();
     }
   });

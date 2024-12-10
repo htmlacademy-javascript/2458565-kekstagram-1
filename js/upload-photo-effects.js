@@ -82,8 +82,10 @@ const getFilterOptions = (effect) => {
 
     effectsSlider.noUiSlider.on('update', (values) => {
       const currentValue = values[0];
+
       imgPreview.style.filter = options.filter(currentValue);
       effectInput.value = currentValue;
+      effectInput.getAttributeNode('value').value = currentValue;
     });
   }
 };
@@ -93,6 +95,7 @@ const getSliderVisibility = (effect) => {
     imgPreview.style.filter = '';
     effectsSlider.classList.add('hidden');
     slider.classList.add('hidden');
+    effectInput.getAttributeNode('value').value = '';
   } else {
     effectsSlider.classList.remove('hidden');
     slider.classList.remove('hidden');

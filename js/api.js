@@ -3,7 +3,7 @@ const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/',
 };
-const Method = {
+const Methods = {
   GET: 'GET',
   POST: 'POST',
 };
@@ -12,7 +12,7 @@ const ErrorMessages = {
   SEND_DATA: 'Форма не отправлена. Повторите попытку',
 };
 
-const load = (route, error, method = Method.GET, body = null) =>
+const load = (route, error, method = Methods.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, { method, body })
     .then((response) => {
       if (!response.ok) {
@@ -26,6 +26,6 @@ const load = (route, error, method = Method.GET, body = null) =>
 
 const getData = () => load(Route.GET_DATA, ErrorMessages.GET_DATA);
 
-const sendData = (body) => load(Route.SEND_DATA, ErrorMessages.SEND_DATA, Method.POST, body);
+const sendData = (body) => load(Route.SEND_DATA, ErrorMessages.SEND_DATA, Methods.POST, body);
 
 export { getData, sendData };
