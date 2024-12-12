@@ -17,8 +17,7 @@ const sortPhoto = (data, id) => {
 
   if (id === FilterID.random) {
     shuffleElements(dataCopy);
-    const randomPhotoSet = dataCopy.slice(0, RANDOM_PHOTO_QUANTITY);
-    return randomPhotoSet;
+    return dataCopy.slice(0, RANDOM_PHOTO_QUANTITY);
   } else if (id === FilterID.discussed) {
     return dataCopy.sort((a, b) => b.comments.length - a.comments.length);
   } else if (id === FilterID.default) {

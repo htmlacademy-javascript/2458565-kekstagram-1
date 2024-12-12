@@ -13,7 +13,7 @@ const getPreview = (preview) => {
   const activeFilterButtonElem = filters.querySelector('.img-filters__button--active');
   const sortedPreview = sortPhoto(preview, activeFilterButtonElem.id);
 
-  sortedPreview.forEach(({url, comments, likes, description}) => {
+  sortedPreview.forEach(({url, likes, comments, description}) => {
     const clonedPreviewTemplate = previewTemplate.cloneNode(true);
     clonedPreviewTemplate.querySelector('.picture__img').src = url;
     clonedPreviewTemplate.querySelector('.picture__comments').textContent = comments.length;
@@ -21,7 +21,7 @@ const getPreview = (preview) => {
     previewListFragment.append(clonedPreviewTemplate);
 
     clonedPreviewTemplate.addEventListener('click', () => {
-      showFullPicture({url, comments, likes, description});
+      showFullPicture({url, likes, comments, description});
     });
   });
 
