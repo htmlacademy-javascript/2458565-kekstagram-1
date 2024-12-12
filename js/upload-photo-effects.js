@@ -1,20 +1,24 @@
 const imgFormOverLay = document.querySelector('.img-upload__overlay');
 const imgPreview = imgFormOverLay.querySelector('.img-upload__preview img');
-const slider = imgFormOverLay.querySelector('.img-upload__effect-level');
+const effectLevelField = imgFormOverLay.querySelector('.img-upload__effect-level');
 const effectInput = imgFormOverLay.querySelector('.effect-level__value');
-const effectsSlider = imgFormOverLay.querySelector('.effect-level__slider');
+const effectsSliderContainer = imgFormOverLay.querySelector('.effect-level__slider');
 const effectRadioButtons = imgFormOverLay.querySelectorAll('.effects__radio');
 effectInput.value = 100;
 
-noUiSlider.create(effectsSlider, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 1,
-  connect: 'lower',
-});
+const createSlider = () => {
+  noUiSlider.create(effectsSliderContainer, {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 100,
+    step: 1,
+    connect: 'lower',
+  });
+};
+
+const destroySlider = () => effectsSliderContainer.noUiSlider.destroy();
 
 const getEffectOptions = (effect) => {
   switch (effect) {
@@ -71,7 +75,7 @@ const getEffectOptions = (effect) => {
 const getFilterOptions = (effect) => {
   const options = getEffectOptions(effect);
   if (options) {
-    effectsSlider.noUiSlider.updateOptions({
+    effectsSliderContainer.noUiSlider.updateOptions({
       range: {
         min: options.range.min,
         max: options.range.max,
@@ -80,7 +84,7 @@ const getFilterOptions = (effect) => {
       step: options.step,
     });
 
-    effectsSlider.noUiSlider.on('update', (values) => {
+    effectsSliderContainer.noUiSlider.on('update', (values) => {
       const currentValue = values[0];
 
       imgPreview.style.filter = options.filter(currentValue);
@@ -93,12 +97,12 @@ const getFilterOptions = (effect) => {
 const getSliderVisibility = (effect) => {
   if (effect === 'none') {
     imgPreview.style.filter = '';
-    effectsSlider.classList.add('hidden');
-    slider.classList.add('hidden');
+    effectsSliderContainer.classList.add('hidden');
+    effectLevelField.classList.add('hidden');
     effectInput.getAttributeNode('value').value = '';
   } else {
-    effectsSlider.classList.remove('hidden');
-    slider.classList.remove('hidden');
+    effectsSliderContainer.classList.remove('hidden');
+    effectLevelField.classList.remove('hidden');
     getFilterOptions(effect);
   }
 };
@@ -128,4 +132,4 @@ for (const effectRadioButton of effectRadioButtons) {
   });
 }
 
-export { imgFormOverLay, imgPreview, getDefaultEffect };
+export { imgFormOverLay, imgPreview, getDefaultEffect, createSlider, destroySlider };

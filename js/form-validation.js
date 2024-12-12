@@ -62,6 +62,13 @@ const getErrorMessage = (value) => {
   }
 };
 
+const validateComment = (comment) => {
+  if (comment.length > COMMENT_MAXLENGTH) {
+    return false;
+  }
+  return true;
+};
+
 pristine.addValidator(
   hashtagInput,
   (value) => {
@@ -70,13 +77,6 @@ pristine.addValidator(
   },
   getErrorMessage,
 );
-
-const validateComment = (comment) => {
-  if (comment.length > COMMENT_MAXLENGTH) {
-    return false;
-  }
-  return true;
-};
 
 pristine.addValidator(
   commentInput,

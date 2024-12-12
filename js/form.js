@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { imgFormOverLay, imgPreview, getDefaultEffect } from './upload-photo-effects.js';
+import { imgFormOverLay, imgPreview, getDefaultEffect, createSlider, destroySlider } from './upload-photo-effects.js';
 import { pristine, hashtagInput, commentInput } from './form-validation.js';
 import { showErrorMessage, showSuccessMessage } from './form-messages.js';
 import { getOriginalScale } from './upload-photo-scale.js';
@@ -30,7 +30,7 @@ const unblockSubmitButton = () => {
   submitButtonElem.textContent = LoadingMessages.FINISH;
 };
 
-const resetform = () => {
+const resetForm = () => {
   imgPreview.className = 'img-upload__preview';
   imgPreview.src = '';
   uploadFileInput.value = '';
@@ -44,10 +44,11 @@ const resetform = () => {
 const closeModal = () => {
   imgFormOverLay.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  destroySlider();
 };
 
 resetButtonElem.addEventListener('click', () => {
-  resetform();
+  resetForm();
   closeModal();
 });
 
@@ -56,17 +57,6 @@ const stopEvent = (element) => {
     evt.stopPropagation();
   });
 };
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    stopEvent(hashtagInput);
-    stopEvent(commentInput);
-    resetform();
-    closeModal();
-  }
-};
-
-document.addEventListener('keydown', onDocumentKeydown);
 
 const setFormSubmit = (onSuccess) => {
   form.addEventListener('submit', async (evt) => {
@@ -80,7 +70,7 @@ const setFormSubmit = (onSuccess) => {
         .then(() => {
           closeModal();
           showSuccessMessage();
-          resetform();
+          resetForm();
         })
         .catch(() => {
           showErrorMessage();
@@ -94,9 +84,22 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    stopEvent(hashtagInput);
+    stopEvent(commentInput);
+    resetForm();
+    closeModal();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  }
+};
+
 uploadFileInput.addEventListener('change', () => {
-  showAlert(loadPhotoTemplate, ALERT_SHOW_TIME);getDefaultEffect();
+  showAlert(loadPhotoTemplate, ALERT_SHOW_TIME);
+  createSlider();
+  getDefaultEffect();
   setTimeout(() => {
+    document.addEventListener('keydown', onDocumentKeydown);
     imgFormOverLay.classList.remove('hidden');
     document.body.classList.add('modal-open');
     uploadPhoto();
