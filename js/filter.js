@@ -27,7 +27,7 @@ const sortPhoto = (data, id) => {
 
 const showFilter = () => filters.classList.remove('img-filters--inactive');
 
-const onFilterClick = (cb) => {
+const chooseFilter = (cb) => {
   filters.addEventListener('click', (evt) => {
     const activeFilterButton = filters.querySelector('.img-filters__button--active');
     const targetElement = evt.target;
@@ -40,4 +40,4 @@ const onFilterClick = (cb) => {
   });
 };
 
-export { showFilter, sortPhoto, onFilterClick, filters };
+export { showFilter, sortPhoto, chooseFilter, filters };
