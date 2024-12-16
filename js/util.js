@@ -19,7 +19,7 @@ const shuffleElements = (array) => {
   return array;
 };
 
-const debounce = (cb, timeoutDelay = TIMEOUT_DELAY) => {
+const correctDebounce = (cb, timeoutDelay = TIMEOUT_DELAY) => {
   let timeoutID;
   return (...rest) => {
     clearTimeout(timeoutID);
@@ -27,4 +27,4 @@ const debounce = (cb, timeoutDelay = TIMEOUT_DELAY) => {
   };
 };
 
-export { isEscapeKey, showAlert, shuffleElements, debounce };
+export { isEscapeKey, showAlert, shuffleElements, correctDebounce };

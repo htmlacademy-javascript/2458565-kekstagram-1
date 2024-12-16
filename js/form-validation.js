@@ -11,7 +11,7 @@ const ErrorMessages = {
   hashtagMinlength: 'хэш-тег не может состоять из одного символа',
   hashTagMaxlength: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
   hashtagMaxquantity: 'превышено максимально допустимое количество хэш-тегов',
-  invalidFormat: 'Неверный формат хэш-тегов. Используйте символ решетки, числа и буквы, регистр не важен',
+  invalidFormat: 'Неверный формат хэш-тегов. Используйте символ решетки, числа и буквы',
   hashtagDuplicate: 'не используйте повторяющиеся хэш-теги',
   commentMaxLength: 'длина не более 140 символов',
 };
@@ -24,7 +24,7 @@ const pristine = new Pristine(imgFormOverLay, {
 });
 
 const validateHashtag = (value) => {
-  const hashtags = value.split(' ').filter(Boolean);
+  const hashtags = value.toLowerCase().split(' ').filter(Boolean);
   const uniqueHashtags = new Set(hashtags);
   const minLength = [...uniqueHashtags].some((hashtag) => hashtag.length < HASHTAG__MINLENGTH);
   const maxLength = [...uniqueHashtags].some((hashtag) => hashtag.length >= HASHTAG__MAXLENGTH);

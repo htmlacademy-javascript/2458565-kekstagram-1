@@ -1,8 +1,8 @@
 import { getData, sendData } from './api.js';
 import { getPreview } from './previews.js';
 import { setFormSubmit } from './form.js';
-import { showAlert, debounce } from './util.js';
-import { showFilter, onFilterClick } from './filter.js';
+import { showAlert, correctDebounce } from './util.js';
+import { showFilter, chooseFilter } from './filter.js';
 
 const falseLoadTemplate = document.querySelector('#false-download')
   .content
@@ -13,7 +13,7 @@ getData()
   .then((data) => {
     getPreview(data);
     showFilter();
-    onFilterClick(debounce(
+    chooseFilter(correctDebounce(
       () => getPreview(data)
     ));
   })

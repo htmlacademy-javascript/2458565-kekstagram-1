@@ -1,33 +1,27 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, showAlert } from './util.js';
 import { imgFormOverLay, imgPreview, getDefaultEffect, createSlider, destroySlider } from './upload-photo-effects.js';
 import { pristine, hashtagInput, commentInput } from './form-validation.js';
-import { showErrorMessage, showSuccessMessage } from './form-messages.js';
+import { showErrorMessage, showSuccessMessage, errorMessageTemplate } from './form-messages.js';
 import { getOriginalScale } from './upload-photo-scale.js';
 import { uploadPhoto } from './upload-photo.js';
-import { showAlert } from './util.js';
 
+const LoadingMessages = {
+  START: 'ПУБЛИКУЮ...',
+  FINISH: 'ОПУБЛИКОВАТЬ',
+};
 const ALERT_SHOW_TIME = 2000;
 const uploadFileInput = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
 const resetButtonElem = imgFormOverLay.querySelector('#upload-cancel');
 const submitButtonElem = imgFormOverLay.querySelector('.img-upload__submit');
-const LoadingMessages = {
-  START: 'ПУБЛИКУЮ...',
-  FINISH: 'ОПУБЛИКОВАТЬ',
-};
 const loadPhotoTemplate = document.querySelector('#messages')
   .content
   .querySelector('.img-upload__message')
   .cloneNode(true);
 
-const blockSubmitButton = () => {
-  submitButtonElem.disabled = true;
-  submitButtonElem.textContent = LoadingMessages.START;
-};
-
-const unblockSubmitButton = () => {
-  submitButtonElem.disabled = false;
-  submitButtonElem.textContent = LoadingMessages.FINISH;
+const changeSubmitButton = (availability, text) => {
+  submitButtonElem.disabled = availability;
+  submitButtonElem.textContent = text;
 };
 
 const resetForm = () => {
@@ -41,21 +35,26 @@ const resetForm = () => {
   getDefaultEffect();
 };
 
+const stopEvent = (element) => {
+  element.addEventListener('keydown', (evt) => {
+    evt.stopPropagation();
+  });
+};
+
 const closeModal = () => {
   imgFormOverLay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   destroySlider();
 };
 
-resetButtonElem.addEventListener('click', () => {
-  resetForm();
-  closeModal();
-});
-
-const stopEvent = (element) => {
-  element.addEventListener('keydown', (evt) => {
-    evt.stopPropagation();
-  });
+const handleDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt) && !document.body.contains(errorMessageTemplate)) {
+    stopEvent(hashtagInput);
+    stopEvent(commentInput);
+    resetForm();
+    closeModal();
+    document.removeEventListener('keydown', handleDocumentKeydown);
+  }
 };
 
 const setFormSubmit = (onSuccess) => {
@@ -65,10 +64,11 @@ const setFormSubmit = (onSuccess) => {
     const isValid = pristine.validate();
 
     if (isValid) {
-      blockSubmitButton();
+      changeSubmitButton(true, LoadingMessages.START);
       onSuccess(new FormData(form))
         .then(() => {
           closeModal();
+          document.removeEventListener('keydown', handleDocumentKeydown);
           showSuccessMessage();
           resetForm();
         })
@@ -76,7 +76,7 @@ const setFormSubmit = (onSuccess) => {
           showErrorMessage();
         })
         .finally(() => {
-          unblockSubmitButton();
+          changeSubmitButton(false, LoadingMessages.FINISH);
         });
     } else {
       showErrorMessage();
@@ -84,26 +84,22 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    stopEvent(hashtagInput);
-    stopEvent(commentInput);
-    resetForm();
-    closeModal();
-    document.removeEventListener('keydown', onDocumentKeydown);
-  }
-};
-
 uploadFileInput.addEventListener('change', () => {
   showAlert(loadPhotoTemplate, ALERT_SHOW_TIME);
   createSlider();
   getDefaultEffect();
   setTimeout(() => {
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', handleDocumentKeydown);
     imgFormOverLay.classList.remove('hidden');
     document.body.classList.add('modal-open');
     uploadPhoto();
   }, ALERT_SHOW_TIME);
+});
+
+resetButtonElem.addEventListener('click', () => {
+  resetForm();
+  closeModal();
+  document.removeEventListener('keydown', handleDocumentKeydown);
 });
 
 export { setFormSubmit };

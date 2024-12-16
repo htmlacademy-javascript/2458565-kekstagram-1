@@ -45,8 +45,8 @@ const showComments = (comments) => {
 };
 
 const closeFullPicture = (evt) => {
-  evt.preventDefault();
   if (isEscapeKey(evt)) {
+    evt.preventDefault();
     bigPictureModal.classList.add('hidden');
     document.removeEventListener('keydown', closeFullPicture);
   }
@@ -96,6 +96,7 @@ commentsLoaderButton.addEventListener('click', () => {
 bigPictureCloseButtonElem.addEventListener('click', () => {
   bigPictureModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', closeFullPicture);
 });
 
 export { showFullPicture };
